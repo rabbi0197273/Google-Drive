@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PhotoPlyr - Google Drive Photo Management System</title>
+    
+  <!-- Meta Tags for SEO -->
+  <meta name="description" content="PhotoPlyr is a complete Google Drive Photo Management System with converter, gallery, and direct link generator. Manage your photos easily.">
+  <meta name="keywords" content="PhotoPlyr, Google Drive, Photo Management, Photo Converter, Photo Gallery, Direct Links">
+  <meta name="author" content="Rabbi123">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rabbi0197273.github.io/PhotoPlyr/">
+  <meta property="og:title" content="PhotoPlyr - Google Drive Photo Management System">
+  <meta property="og:description" content="Complete Google Drive Photo Management System with converter, gallery, and direct link generator.">
+  <meta property="og:image" content="https://sh20raj.github.io/DrivePlyr/drive-logo.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://rabbi0197273.github.io/PhotoPlyr/">
+  <meta property="twitter:title" content="PhotoPlyr - Google Drive Photo Management System">
+  <meta property="twitter:description" content="Complete Google Drive Photo Management System with converter, gallery, and direct link generator.">
+  <meta property="twitter:image" content="https://sh20raj.github.io/DrivePlyr/drive-logo.png">
+
+  <!-- Other Meta Tags -->
+  <link rel="icon" href="drive-logo.png">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="index, follow">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .feature-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+<!-- Navigation -->
+<nav class="bg-white shadow-lg">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center py-4">
+      <div class="flex items-center space-x-4">
+        <img src="drive-logo.png" alt="PhotoPlyr" class="h-10 w-10">
+        <span class="text-xl font-bold text-gray-800">PhotoPlyr</span>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="#features" class="text-gray-600 hover:text-blue-600">Features</a>
+        <a href="gallery.html" class="text-gray-600 hover:text-blue-600">Gallery</a>
+        <a href="convert.html" class="text-gray-600 hover:text-blue-600">Convert</a>
+        <a href="#about" class="text-gray-600 hover:text-blue-600">About</a>
+      </div>
+      <div class="flex space-x-3">
+        <a href="convert.html" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Start Converting
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-gradient text-white py-20">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <h1 class="text-5xl font-bold mb-6">Google Drive Photo Management</h1>
+    <p class="text-xl mb-8 max-w-3xl mx-auto">
+      Convert, manage, and share your Google Drive photos with direct links. 
+      The ultimate photo management system for your Drive images.
+    </p>
+    <div class="flex justify-center space-x-4">
+      <a href="convert.html" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100">
+        🔄 Convert Photos
+      </a>
+      <a href="gallery.html" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600">
+        📂 View Gallery
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-20">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">Powerful Features</h2>
+      <p class="text-gray-600 text-lg">Everything you need to manage your Google Drive photos</p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Feature 1: Photo Converter -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+        <div class="text-4xl mb-4">🔄</div>
+        <h3 class="text-xl font-semibold mb-3">Photo Converter</h3>
+        <p class="text-gray-600 mb-6">Convert Google Drive photo links to direct image links instantly. Easy copy-paste interface.</p>
+        <a href="convert.html" class="text-blue-500 hover:text-blue-700 font-medium">Try Converter →</a>
+      </div>
+
+      <!-- Feature 2: Photo Gallery -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+        <div class="text-4xl mb-4">📂</div>
+        <h3 class="text-xl font-semibold mb-3">Photo Gallery</h3>
+        <p class="text-gray-600 mb-6">Organize all your converted photos in a beautiful gallery with search and filters.</p>
+        <a href="gallery.html" class="text-blue-500 hover:text-blue-700 font-medium">View Gallery →</a>
+      </div>
+
+      <!-- Feature 3: Direct Links -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+        <div class="text-4xl mb-4">🔗</div>
+        <h3 class="text-xl font-semibold mb-3">Direct Links</h3>
+        <p class="text-gray-600 mb-6">Generate direct image links for embedding, sharing, or using in websites and applications.</p>
+        <a href="photos.html" class="text-blue-500 hover:text-blue-700 font-medium">View Photo →</a>
+      </div>
+
+      <!-- Feature 4: Backup & Export -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+        <div class="text-4xl mb-4">💾</div>
+        <h3 class="text-xl font-semibold mb-3">Backup & Export</h3>
+        <p class="text-gray-600 mb-6">Export your photo collection as JSON backup and import on different devices.</p>
+        <a href="gallery.html" class="text-blue-500 hover:text-blue-700 font-medium">Export Data →</a>
+      </div>
+
+      <!-- Feature 5: Mobile Friendly -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+        <div class="text-4xl mb-4">📱</div>
+        <h3 class="text-xl font-semibold mb-3">Mobile Friendly</h3>
+        <p class="text-gray-600 mb-6">Fully responsive design works perfectly on desktop, tablet, and mobile devices.</p>
+        <a href="#" class="text-blue-500 hover:text-blue-700 font-medium">Learn More →</a>
+      </div>
+
+      <!-- Feature 6: Fast & Secure -->
+      <div class="feature-card bg-white p-8 rounded-xl shadow-lg">
+        <div class="text-4xl mb-4">⚡</div>
+        <h3 class="text-xl font-semibold mb-3">Fast & Secure</h3>
+        <p class="text-gray-600 mb-6">Client-side processing, no server uploads. Your data stays private and secure.</p>
+        <a href="#" class="text-blue-500 hover:text-blue-700 font-medium">Security Info →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quick Start Section -->
+<section class="bg-blue-50 py-20">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold text-gray-800 mb-8">Get Started in 3 Easy Steps</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center">
+        <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
+        <h3 class="text-lg font-semibold mb-2">Copy Drive Link</h3>
+        <p class="text-gray-600">Copy your Google Drive photo sharing link</p>
+      </div>
+      
+      <div class="text-center">
+        <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
+        <h3 class="text-lg font-semibold mb-2">Convert & Save</h3>
+        <p class="text-gray-600">Paste in converter and save to your gallery</p>
+      </div>
+      
+      <div class="text-center">
+        <div class="bg-blue-500 text-white w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
+        <h3 class="text-lg font-semibold mb-2">Use Direct Link</h3>
+        <p class="text-gray-600">Copy direct link for websites, apps, or sharing</p>
+      </div>
+    </div>
+    
+    <div class="mt-12">
+      <a href="convert.html" class="bg-blue-500 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-blue-600">
+        Start Converting Now
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="glass rounded-xl p-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <div class="text-3xl font-bold text-blue-600" id="totalPhotosCount">0</div>
+          <div class="text-gray-600">Photos Converted</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-green-600" id="totalViewsCount">0</div>
+          <div class="text-gray-600">Total Views</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-purple-600">100%</div>
+          <div class="text-gray-600">Success Rate</div>
+        </div>
+        <div>
+          <div class="text-3xl font-bold text-orange-600">Free</div>
+          <div class="text-gray-600">Always</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="bg-gray-800 text-white py-20">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h2 class="text-3xl font-bold mb-6">About PhotoPlyr</h2>
+    <p class="text-lg text-gray-300 mb-8">
+      PhotoPlyr is a free, open-source photo management system designed specifically for Google Drive users. 
+      Convert your Drive photo links to direct image URLs, organize them in galleries, and share easily across platforms.
+    </p>
+    <div class="flex justify-center space-x-6">
+      <a href="#" class="text-blue-400 hover:text-blue-300">Privacy Policy</a>
+      <a href="#" class="text-blue-400 hover:text-blue-300">Terms of Service</a>
+      <a href="#" class="text-blue-400 hover:text-blue-300">Support</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-8">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col md:flex-row justify-between items-center">
+      <div class="flex items-center space-x-4 mb-4 md:mb-0">
+        <img src="drive-logo.png" alt="PhotoPlyr" class="h-8 w-8">
+        <span class="text-lg font-semibold">PhotoPlyr</span>
+      </div>
+      <div class="text-gray-400 text-sm">
+        © 2024 PhotoPlyr. Made with ❤️ for Google Drive users.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="photos-data.js"></script>
+<script>
+  // Update homepage stats
+  function updateHomeStats() {
+    const photos = getAllPhotos();
+    document.getElementById('totalPhotosCount').textContent = photos.length;
+    document.getElementById('totalViewsCount').textContent = photos.reduce((sum, p) => sum + p.views, 0);
+  }
+  
+  // Load stats on page load
+  updateHomeStats();
+  
+  // Smooth scrolling
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+</script>
+</body>
+</html>
