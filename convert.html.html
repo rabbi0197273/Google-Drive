@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="drive-logo.png">
+    <title>PhotoPlyr Converter - Add Google Drive Photos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+<div class="container mx-auto py-8 px-4">
+    <!-- Header -->
+    <div class="text-center mb-8">
+        <img src="drive-logo.png" alt="PhotoPlyr" class="mx-auto h-16 mb-4">
+        <h1 class="text-3xl font-bold text-gray-800">Photo Converter</h1>
+        <p class="text-gray-600">Google Drive ছবি convert করুন</p>
+    </div>
+
+    <!-- Converter Form -->
+    <div class="max-w-md mx-auto glass rounded-lg p-6">
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Google Drive Photo Link *
+            </label>
+            <input type="text" id="photoUrl" placeholder="https://drive.google.com/file/d/..." 
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+        </div>
+        
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">
+                Photo Title (Optional)
+            </label>
+            <input type="text" id="photoTitle" placeholder="My Beautiful Photo" 
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
+        </div>
+        
+        <button onclick="convertPhoto()" 
+                class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 font-bold">
+            🔄 Convert & Save
+        </button>
+        
+        <div class="mt-4 text-center">
+            <a href="gallery.html" class="text-blue-500 hover:text-blue-700">
+                📂 View Gallery
+            </a>
+            <span class="mx-2">|</span>
+            <a href="index.html" class="text-blue-500 hover:text-blue-700">
+                🏠 Home
+            </a>
+        </div>
+    </div>
+
+    <!-- Result Display -->
+    <div id="resultDisplay" class="max-w-2xl mx-auto mt-8 glass rounded-lg p-6" style="display: none;">
+        <h3 class="text-lg font-bold text-gray-800 mb-4">✅ Conversion Successful!</h3>
+        
+        <div class="mb-4">
+            <img id="previewImage" src="" alt="Preview" class="w-full max-w-sm mx-auto rounded-lg shadow-md">
+        </div>
+        
+        <div class="space-y-3">
+            <div>
+                <strong>Direct Link:</strong>
+                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm break-all" id="directLink"></div>
+            </div>
+            
+            <div>
+                <strong>Viewer Link:</strong>
+                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm break-all" id="viewerLink"></div>
+            </div>
+            
+            <div class="flex flex-wrap gap-2 mt-4">
+                <button onclick="copyDirectLink()" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                    📋 Copy Direct Link
+                </button>
+                <button onclick="copyViewerLink()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
+                    🔗 Copy Viewer Link
+                </button>
+                <button onclick="openInViewer()" class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600">
+                    👁️ Open Viewer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="photos-data.js"></script>
+<script>
+    var apikey = ['AIzaSyCt3DULzE2trDJhfFUosWZT-3GEObbMqVU', 'AIzaSyCsbx8BSyLwkw6XX6Lg5OF1U0HNtI9VmCY', 'AIzaSyBLMJAT6oqTZxAMsCsMjXzoo4lkJL4MmfM', 'AIzaSyCIY6fomcJxOt0XQ_naa1rzfd5wlOMGKDY'][Math.floor(Math.random() * 4)];
+
+    function getIdFromUrl(url) { 
+        return url.match(/[-\w]{25,}/); 
+    }
+
+    let currentPhoto = {};
+
+    function convertPhoto() {
+        const photoUrl = document.getElementById('photoUrl').value.trim();
+        const photoTitle = document.getElementById('photoTitle').value.trim() || 'Untitled Photo';
+        
+        if (!photoUrl) {
+            alert('Please enter a Google Drive photo link!');
+            return;
+        }
+        
+        const driveId = getIdFromUrl(photoUrl);
+        if (!driveId) {
+            alert('Invalid Google Drive link!');
+            return;
+        }
+        
+        // Generate links
+        const directLink = `https://www.googleapis.com/drive/v3/files/${driveId}?alt=media&key=${apikey}`;
+        const thumbnail = `https://lh3.googleusercontent.com/d/${driveId}`;
+        const base = btoa(JSON.stringify({id: driveId}));
+        const viewerLink = `${window.location.origin}${window.location.pathname.replace('convert.html', '')}photos.html?id=${base}`;
+        
+        // Save photo data
+        currentPhoto = {
+            id: base,
+            title: photoTitle,
+            driveId: driveId,
+            directLink: directLink,
+            thumbnail: thumbnail
+        };
+        
+        // Test if image loads
+        const testImg = new Image();
+        testImg.onload = function() {
+            // Save to storage
+            const saved = savePhoto(currentPhoto);
+            
+            // Display result
+            document.getElementById('previewImage').src = thumbnail;
+            document.getElementById('directLink').textContent = directLink;
+            document.getElementById('viewerLink').textContent = viewerLink;
+            document.getElementById('resultDisplay').style.display = 'block';
+            
+            // Clear form
+            document.getElementById('photoUrl').value = '';
+            document.getElementById('photoTitle').value = '';
+            
+            if (saved) {
+                alert('✅ Photo saved successfully!');
+            } else {
+                alert('⚠️ Photo converted but already exists in gallery!');
+            }
+        };
+        
+        testImg.onerror = function() {
+            alert('❌ Cannot access this photo. Make sure it\'s public and accessible!');
+        };
+        
+        testImg.src = thumbnail;
+    }
+
+    function copyDirectLink() {
+        navigator.clipboard.writeText(currentPhoto.directLink).then(() => {
+            alert('Direct link copied! ✅');
+        });
+    }
+
+    function copyViewerLink() {
+        const base = btoa(JSON.stringify({id: currentPhoto.driveId}));
+        const viewerLink = `${window.location.origin}${window.location.pathname.replace('convert.html', '')}photos.html?id=${base}`;
+        navigator.clipboard.writeText(viewerLink).then(() => {
+            alert('Viewer link copied! ✅');
+        });
+    }
+
+    function openInViewer() {
+        const base = btoa(JSON.stringify({id: currentPhoto.driveId}));
+        window.location.href = `photos.html?id=${base}`;
+    }
+
+    // Auto-fill title from filename if possible
+    document.getElementById('photoUrl').addEventListener('input', function() {
+        const url = this.value;
+        // Try to extract filename from URL if it exists
+        const match = url.match(/[?&]title=([^&]+)/);
+        if (match) {
+            document.getElementById('photoTitle').value = decodeURIComponent(match[1]);
+        }
+    });
+</script>
+</body>
+</html>
