@@ -1,194 +1,273 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="drive-logo.png">
-    <title>PhotoPlyr Converter - Add Google Drive Photos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .glass {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-        }
-    </style>
-</head>
-<body class="bg-gray-100">
-
-<div class="container mx-auto py-8 px-4">
-    <!-- Header -->
-    <div class="text-center mb-8">
-        <img src="drive-logo.png" alt="PhotoPlyr" class="mx-auto h-16 mb-4">
-        <h1 class="text-3xl font-bold text-gray-800">Photo Converter</h1>
-        <p class="text-gray-600">Google Drive ছবি convert করুন</p>
-    </div>
-
-    <!-- Converter Form -->
-    <div class="max-w-md mx-auto glass rounded-lg p-6">
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">
-                Google Drive Photo Link *
-            </label>
-            <input type="text" id="photoUrl" placeholder="https://drive.google.com/file/d/..." 
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-        </div>
-        
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2">
-                Photo Title (Optional)
-            </label>
-            <input type="text" id="photoTitle" placeholder="My Beautiful Photo" 
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
-        </div>
-        
-        <button onclick="convertPhoto()" 
-                class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 font-bold">
-            🔄 Convert & Save
-        </button>
-        
-        <div class="mt-4 text-center">
-            <a href="gallery.html" class="text-blue-500 hover:text-blue-700">
-                📂 View Gallery
-            </a>
-            <span class="mx-2">|</span>
-            <a href="index.html" class="text-blue-500 hover:text-blue-700">
-                🏠 Home
-            </a>
-        </div>
-    </div>
-
-    <!-- Result Display -->
-    <div id="resultDisplay" class="max-w-2xl mx-auto mt-8 glass rounded-lg p-6" style="display: none;">
-        <h3 class="text-lg font-bold text-gray-800 mb-4">✅ Conversion Successful!</h3>
-        
-        <div class="mb-4">
-            <img id="previewImage" src="" alt="Preview" class="w-full max-w-sm mx-auto rounded-lg shadow-md">
-        </div>
-        
-        <div class="space-y-3">
-            <div>
-                <strong>Direct Link:</strong>
-                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm break-all" id="directLink"></div>
-            </div>
-            
-            <div>
-                <strong>Viewer Link:</strong>
-                <div class="bg-gray-100 p-2 rounded mt-1 font-mono text-sm break-all" id="viewerLink"></div>
-            </div>
-            
-            <div class="flex flex-wrap gap-2 mt-4">
-                <button onclick="copyDirectLink()" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
-                    📋 Copy Direct Link
-                </button>
-                <button onclick="copyViewerLink()" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
-                    🔗 Copy Viewer Link
-                </button>
-                <button onclick="openInViewer()" class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600">
-                    👁️ Open Viewer
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script src="photos-data.js"></script>
 <script>
-    var apikey = ['AIzaSyCt3DULzE2trDJhfFUosWZT-3GEObbMqVU', 'AIzaSyCsbx8BSyLwkw6XX6Lg5OF1U0HNtI9VmCY', 'AIzaSyBLMJAT6oqTZxAMsCsMjXzoo4lkJL4MmfM', 'AIzaSyCIY6fomcJxOt0XQ_naa1rzfd5wlOMGKDY'][Math.floor(Math.random() * 4)];
-
-    function getIdFromUrl(url) { 
-        return url.match(/[-\w]{25,}/); 
-    }
-
+    // API Keys for Google Drive
+    var apiKeys = [
+        'AIzaSyCt3DULzE2trDJhfFUosWZT-3GEObbMqVU', 
+        'AIzaSyCsbx8BSyLwkw6XX6Lg5OF1U0HNtI9VmCY', 
+        'AIzaSyBLMJAT6oqTZxAMsCsMjXzoo4lkJL4MmfM', 
+        'AIzaSyCIY6fomcJxOt0XQ_naa1rzfd5wlOMGKDY'
+    ];
+    var currentApiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+    
     let currentPhoto = {};
+
+    // Extract Google Drive ID from URL - IMPROVED
+    function extractDriveId(url) {
+        console.log('Input URL:', url);
+        url = url.trim();
+        
+        // Pattern 1: https://drive.google.com/file/d/FILE_ID/view
+        let match = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
+        if (match) {
+            console.log('Extracted ID (Pattern 1):', match[1]);
+            return match[1];
+        }
+        
+        // Pattern 2: https://drive.google.com/open?id=FILE_ID
+        match = url.match(/[?&]id=([a-zA-Z0-9-_]+)/);
+        if (match) {
+            console.log('Extracted ID (Pattern 2):', match[1]);
+            return match[1];
+        }
+        
+        // Pattern 3: Direct ID
+        if (url.match(/^[a-zA-Z0-9-_]{25,}$/)) {
+            console.log('Direct ID:', url);
+            return url;
+        }
+        
+        console.log('No ID found');
+        return null;
+    }
 
     function convertPhoto() {
         const photoUrl = document.getElementById('photoUrl').value.trim();
         const photoTitle = document.getElementById('photoTitle').value.trim() || 'Untitled Photo';
         
+        console.log('Starting conversion...');
+        console.log('Photo URL:', photoUrl);
+        console.log('Photo Title:', photoTitle);
+        
+        // Hide previous results
+        hideAllDisplays();
+        
         if (!photoUrl) {
-            alert('Please enter a Google Drive photo link!');
+            showError('Please enter a Google Drive photo link!');
             return;
         }
         
-        const driveId = getIdFromUrl(photoUrl);
+        // Extract Drive ID
+        const driveId = extractDriveId(photoUrl);
         if (!driveId) {
-            alert('Invalid Google Drive link!');
+            showError('Invalid Google Drive link! Please use a proper sharing link.');
             return;
         }
         
-        // Generate links
-        const directLink = `https://www.googleapis.com/drive/v3/files/${driveId}?alt=media&key=${apikey}`;
-        const thumbnail = `https://lh3.googleusercontent.com/d/${driveId}`;
-        const base = btoa(JSON.stringify({id: driveId}));
-        const viewerLink = `${window.location.origin}${window.location.pathname.replace('convert.html', '')}photos.html?id=${base}`;
+        console.log('Drive ID:', driveId);
         
-        // Save photo data
-        currentPhoto = {
-            id: base,
+        // Show loading
+        const loadingDiv = document.getElementById('loadingDiv');
+        if (loadingDiv) loadingDiv.style.display = 'block';
+        
+        // Generate all possible links
+        const directLink = `https://www.googleapis.com/drive/v3/files/${driveId}?alt=media&key=${currentApiKey}`;
+        const thumbnailLink = `https://lh3.googleusercontent.com/d/${driveId}`;
+        const driveDirectLink = `https://drive.google.com/uc?export=view&id=${driveId}`;
+        const base64Id = btoa(JSON.stringify({id: driveId}));
+        const viewerLink = `${window.location.origin}${window.location.pathname.replace('convert.html', '')}photos.html?id=${base64Id}`;
+        
+        console.log('Generated Links:');
+        console.log('Direct Link:', directLink);
+        console.log('Thumbnail:', thumbnailLink);
+        console.log('Drive Direct:', driveDirectLink);
+        console.log('Viewer Link:', viewerLink);
+        
+        // Test multiple image sources
+        testImageSources([thumbnailLink, driveDirectLink, directLink], {
+            id: base64Id,
             title: photoTitle,
             driveId: driveId,
             directLink: directLink,
-            thumbnail: thumbnail
-        };
-        
-        // Test if image loads
-        const testImg = new Image();
-        testImg.onload = function() {
-            // Save to storage
-            const saved = savePhoto(currentPhoto);
-            
-            // Display result
-            document.getElementById('previewImage').src = thumbnail;
-            document.getElementById('directLink').textContent = directLink;
-            document.getElementById('viewerLink').textContent = viewerLink;
-            document.getElementById('resultDisplay').style.display = 'block';
-            
-            // Clear form
-            document.getElementById('photoUrl').value = '';
-            document.getElementById('photoTitle').value = '';
-            
-            if (saved) {
-                alert('✅ Photo saved successfully!');
-            } else {
-                alert('⚠️ Photo converted but already exists in gallery!');
-            }
-        };
-        
-        testImg.onerror = function() {
-            alert('❌ Cannot access this photo. Make sure it\'s public and accessible!');
-        };
-        
-        testImg.src = thumbnail;
-    }
-
-    function copyDirectLink() {
-        navigator.clipboard.writeText(currentPhoto.directLink).then(() => {
-            alert('Direct link copied! ✅');
+            thumbnail: thumbnailLink,
+            driveDirectLink: driveDirectLink,
+            viewerLink: viewerLink
         });
     }
 
-    function copyViewerLink() {
-        const base = btoa(JSON.stringify({id: currentPhoto.driveId}));
-        const viewerLink = `${window.location.origin}${window.location.pathname.replace('convert.html', '')}photos.html?id=${base}`;
-        navigator.clipboard.writeText(viewerLink).then(() => {
-            alert('Viewer link copied! ✅');
+    function testImageSources(sources, photoData) {
+        let sourceIndex = 0;
+        
+        function tryNextSource() {
+            if (sourceIndex >= sources.length) {
+                showError('Cannot access this photo. Please ensure:\n1. Photo is publicly accessible\n2. Sharing is enabled\n3. Link is correct');
+                return;
+            }
+            
+            const currentSource = sources[sourceIndex];
+            console.log(`Testing source ${sourceIndex + 1}:`, currentSource);
+            
+            const testImg = new Image();
+            testImg.onload = function() {
+                console.log('✅ Image loaded successfully from:', currentSource);
+                
+                // Use the working source as primary
+                photoData.workingSource = currentSource;
+                photoData.thumbnail = currentSource;
+                
+                displayResults(photoData);
+                
+                // Save to storage
+                const saved = savePhoto(photoData);
+                if (saved) {
+                    console.log('💾 Photo saved to gallery');
+                } else {
+                    console.log('⚠️ Photo already exists in gallery');
+                }
+            };
+            
+            testImg.onerror = function() {
+                console.log(`❌ Failed to load from source ${sourceIndex + 1}`);
+                sourceIndex++;
+                setTimeout(tryNextSource, 1000); // Try next source after 1 second
+            };
+            
+            testImg.src = currentSource;
+        }
+        
+        tryNextSource();
+    }
+
+    function displayResults(photoData) {
+        hideAllDisplays();
+        
+        currentPhoto = photoData;
+        
+        console.log('Displaying results:', photoData);
+        
+        // Update preview image with working source
+        const previewImg = document.getElementById('previewImage');
+        if (previewImg) {
+            previewImg.src = photoData.workingSource || photoData.thumbnail;
+            previewImg.style.display = 'block';
+        }
+        
+        // Update link displays
+        const directLinkElement = document.getElementById('directLinkText') || document.getElementById('directLink');
+        const thumbnailElement = document.getElementById('thumbnailText') || document.getElementById('thumbnailLink');
+        const viewerLinkElement = document.getElementById('viewerLinkText') || document.getElementById('viewerLink');
+        
+        if (directLinkElement) directLinkElement.textContent = photoData.directLink;
+        if (thumbnailElement) thumbnailElement.textContent = photoData.thumbnail;
+        if (viewerLinkElement) viewerLinkElement.textContent = photoData.viewerLink;
+        
+        // Show results section
+        const resultDisplay = document.getElementById('resultDisplay');
+        if (resultDisplay) {
+            resultDisplay.style.display = 'block';
+        }
+        
+        console.log('✅ Results displayed successfully');
+    }
+
+    function hideAllDisplays() {
+        const elements = ['loadingDiv', 'resultDisplay', 'errorDisplay'];
+        elements.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) element.style.display = 'none';
+        });
+    }
+
+    function showError(message) {
+        console.log('❌ Error:', message);
+        hideAllDisplays();
+        
+        const errorDisplay = document.getElementById('errorDisplay');
+        const errorMessage = document.getElementById('errorMessage');
+        
+        if (errorDisplay && errorMessage) {
+            errorMessage.textContent = message;
+            errorDisplay.style.display = 'block';
+        } else {
+            alert(message); // Fallback
+        }
+    }
+
+    function copyToClipboard(elementId) {
+        const element = document.getElementById(elementId);
+        const text = element ? element.textContent : '';
+        
+        if (!text) {
+            alert('No text to copy!');
+            return;
+        }
+        
+        navigator.clipboard.writeText(text).then(() => {
+            // Visual feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Copied!';
+            btn.style.backgroundColor = '#10b981';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.backgroundColor = '';
+            }, 2000);
+            
+            console.log('📋 Copied to clipboard:', text);
+        }).catch(() => {
+            // Fallback
+            prompt('Copy this link:', text);
         });
     }
 
     function openInViewer() {
-        const base = btoa(JSON.stringify({id: currentPhoto.driveId}));
-        window.location.href = `photos.html?id=${base}`;
+        if (currentPhoto.driveId) {
+            const base64Id = btoa(JSON.stringify({id: currentPhoto.driveId}));
+            window.location.href = `photos.html?id=${base64Id}`;
+        }
     }
 
-    // Auto-fill title from filename if possible
-    document.getElementById('photoUrl').addEventListener('input', function() {
-        const url = this.value;
-        // Try to extract filename from URL if it exists
-        const match = url.match(/[?&]title=([^&]+)/);
-        if (match) {
-            document.getElementById('photoTitle').value = decodeURIComponent(match[1]);
+    function downloadImage() {
+        if (currentPhoto.directLink) {
+            const a = document.createElement('a');
+            a.href = currentPhoto.workingSource || currentPhoto.directLink;
+            a.download = currentPhoto.title + '.jpg';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            
+            console.log('⬇️ Download initiated');
         }
-    });
-</script>
-</body>
-</html>
+    }
+
+    function resetForm() {
+        const photoUrlInput = document.getElementById('photoUrl');
+        const photoTitleInput = document.getElementById('photoTitle');
+        
+        if (photoUrlInput) photoUrlInput.value = '';
+        if (photoTitleInput) photoTitleInput.value = '';
+        
+        hideAllDisplays();
+        currentPhoto = {};
+        console.log('🔄 Form reset');
+    }
+
+    // Auto-extract title from URL if possible
+    const photoUrlInput = document.getElementById('photoUrl');
+    if (photoUrlInput) {
+        photoUrlInput.addEventListener('input', function() {
+            const url = this.value;
+            const titleInput = document.getElementById('photoTitle');
+            
+            if (url && titleInput && !titleInput.value) {
+                // Try to extract filename from URL
+                const match = url.match(/[?&]title=([^&]+)/);
+                if (match) {
+                    titleInput.value = decodeURIComponent(match[1]);
+                }
+            }
+        });
+    }
+
+    console.log('🚀 PhotoPlyr Converter initialized');
+                </script>
