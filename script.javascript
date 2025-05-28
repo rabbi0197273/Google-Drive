@@ -1,7 +1,19 @@
 function getparam(a,e){return e||(e=window.location.href),new URL(e).searchParams.get(a)}
 let s=a=>document.getElementById(a);
 
-function getIdFromUrl(url) { return url.match(/[-\w]{25,}/); }
+function getIdFromUrl(url) { 
+  // Handle different Google Drive URL formats
+  let match = url.match(/\/d\/([a-zA-Z0-9_-]{25,})/);
+  if (match) return [match[1]];
+  
+  match = url.match(/id=([a-zA-Z0-9_-]{25,})/);
+  if (match) return [match[1]];
+  
+  match = url.match(/([a-zA-Z0-9_-]{25,})/);
+  if (match) return [match[0]];
+  
+  return null;
+}
 
 let apikey = [
   'AIzaSyCt3DULzE2trDJhfFUosWZT-3GEObbMqVU', 
@@ -19,11 +31,13 @@ let get=()=>{
     return;
   }
   
-  videoId = getIdFromUrl(url)[0];
-  if(!videoId) {
+  let result = getIdFromUrl(url);
+  if(!result || !result[0]) {
     alert('Invalid Google Drive link');
     return;
   }
+  
+  videoId = result[0];
   
   // Show thumbnail
   let thumbnail = s('videoThumbnail');
