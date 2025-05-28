@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DrivePlyr - Google Drive Proxy Video Player with Many Powerful HTML5 Players</title>
+  <title>DrivePlyr - Google Drive Proxy Video Player</title>
     
   <!-- Meta Tags for SEO -->
   <meta name="description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
@@ -14,16 +14,14 @@
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rabbi0197273.github.io/Google-Drive/">
-  <meta property="og:title" content="DrivePlyr - Google Drive Proxy Video Player with Many Powerful HTML5 Players">
+  <meta property="og:title" content="DrivePlyr - Google Drive Proxy Video Player">
   <meta property="og:description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
-  <meta property="og:image" content="https://rabbi0197273.github.io/Google-Drive/drive-logo.png">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
   <meta property="twitter:url" content="https://rabbi0197273.github.io/Google-Drive/">
-  <meta property="twitter:title" content="DrivePlyr - Google Drive Proxy Video Player with Many Powerful HTML5 Players">
+  <meta property="twitter:title" content="DrivePlyr - Google Drive Proxy Video Player">
   <meta property="twitter:description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
-  <meta property="twitter:image" content="https://rabbi0197273.github.io/Google-Drive/drive-logo.png">
 
   <!-- Other Meta Tags -->
   <meta name="theme-color" content="#ffffff">
@@ -41,33 +39,65 @@
 </head>
 <body class="bg-gray-100">
 
-<!-- Subscribe Box -->
-<div class="container mx-auto py-8">
-  <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md glass">
-    <div class="text-center">
-      <h2 class="text-xl font-semibold text-gray-800">DrivePlyr</h2>
+<!-- Navigation -->
+<nav class="bg-white shadow-lg">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between h-16">
+      <div class="flex items-center">
+        <h1 class="text-xl font-bold text-gray-800">DrivePlyr</h1>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button onclick="showHome()" id="homeBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">Home</button>
+        <button onclick="showDashboard()" id="dashboardBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">Dashboard</button>
+      </div>
     </div>
-    <div class="mt-6">
-      <input type="text" placeholder="Enter Your Drive Video Link*" autocomplete="on" id="videourl" required="required" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
-      <input type="text" placeholder="Poster URL (optional)" autocomplete="on" id="posterurl" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
-      <input type="text" placeholder="Video Title (optional)" autocomplete="on" id="videotitle" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
-      <button onclick="get()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">GET</button>
+  </div>
+</nav>
+
+<!-- Home Section -->
+<div id="homeSection">
+  <!-- Subscribe Box -->
+  <div class="container mx-auto py-8">
+    <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md glass">
+      <div class="text-center">
+        <h2 class="text-xl font-semibold text-gray-800">DrivePlyr</h2>
+      </div>
+      <div class="mt-6">
+        <input type="text" placeholder="Enter Your Drive Video Link*" autocomplete="on" id="videourl" required="required" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
+        <input type="text" placeholder="Poster URL (optional)" autocomplete="on" id="posterurl" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
+        <input type="text" placeholder="Video Title (optional)" autocomplete="on" id="videotitle" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
+        <button onclick="get()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">GET</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Preview Section -->
+  <div class="container mx-auto px-4" id="videoPreview" style="display: none;">
+    <div class="max-w-md mx-auto bg-white rounded-md shadow-md glass">
+      <h4 class="text-lg font-semibold text-gray-800 p-4 text-center">Video Preview</h4>
+      <div class="p-4">
+        <div class="aspect-w-16 aspect-h-9 mb-4">
+          <img id="videoThumbnail" src="" alt="Video Thumbnail" class="w-full h-48 object-cover rounded-md border-2 border-gray-200" style="display: none;">
+        </div>
+        <div class="space-y-3">
+          <button onclick="copyEmbedCode()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Copy Embed Code</button>
+          <button onclick="openPlayer()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Open Player</button>
+          <button onclick="saveVideo()" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Save to Dashboard</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Video Preview Section -->
-<div class="container mx-auto px-4" id="videoPreview" style="display: none;">
-  <div class="max-w-md mx-auto bg-white rounded-md shadow-md glass">
-    <h4 class="text-lg font-semibold text-gray-800 p-4 text-center">Video Preview</h4>
-    <div class="p-4">
-      <div class="aspect-w-16 aspect-h-9 mb-4">
-        <img id="videoThumbnail" src="" alt="Video Thumbnail" class="w-full h-48 object-cover rounded-md border-2 border-gray-200" style="display: none;">
-      </div>
-      <div class="space-y-3">
-        <button onclick="copyEmbedCode()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Copy Embed Code</button>
-        <button onclick="openPlayer()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Open Player</button>
-      </div>
+<!-- Dashboard Section -->
+<div id="dashboardSection" style="display: none;">
+  <div class="container mx-auto py-8 px-4">
+    <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">Saved Videos Dashboard</h2>
+    <div id="savedVideos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Saved videos will be loaded here -->
+    </div>
+    <div id="noVideos" class="text-center text-gray-500 mt-8" style="display: none;">
+      <p>No saved videos yet. Go to Home and convert some videos!</p>
     </div>
   </div>
 </div>
