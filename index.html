@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DrivePlyr - Google Drive Proxy Video Player with Many Powerful HTML5 Players</title>
+    
+  <!-- Meta Tags for SEO -->
+  <meta name="description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
+  <meta name="keywords" content="DrivePlyr, Google Drive, Proxy, Video Player, HTML5 Player, Hidden ID, Features">
+  <meta name="author" content="Rabbi123">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rabbi0197273.github.io/Rabbi123/">
+  <meta property="og:title" content="DrivePlyr - Google Drive Proxy Video Player with Many Powerful HTML5 Players">
+  <meta property="og:description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
+  <meta property="og:image" content="https://sh20raj.github.io/DrivePlyr/drive-logo.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://rabbi0197273.github.io/Rabbi123/">
+  <meta property="twitter:title" content="DrivePlyr - Google Drive Proxy Video Player with Many Powerful HTML5 Players">
+  <meta property="twitter:description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
+  <meta property="twitter:image" content="https://sh20raj.github.io/DrivePlyr/drive-logo.png">
+
+  <!-- Other Meta Tags -->
+  <link rel="icon" href="drive-logo.svg">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="robots" content="index, follow">
+
+  <!-- Link to Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Glass effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+    }
+    
+    /* Hide all video controls and player elements */
+    .hidden-controls video,
+    .hidden-controls .plyr,
+    .hidden-controls .sopplayer,
+    .hidden-controls .vlite-js,
+    .hidden-controls .afterglow,
+    .hidden-controls .mejs__container {
+      pointer-events: none !important;
+    }
+    
+    .hidden-controls video::-webkit-media-controls,
+    .hidden-controls video::-webkit-media-controls-panel,
+    .hidden-controls video::-webkit-media-controls-play-button,
+    .hidden-controls video::-webkit-media-controls-start-playback-button {
+      display: none !important;
+      -webkit-appearance: none !important;
+    }
+    
+    .hidden-controls .plyr__controls,
+    .hidden-controls .plyr__control,
+    .hidden-controls .sopplayer .vjs-control-bar,
+    .hidden-controls .vlite-js .v-controlBar,
+    .hidden-controls .afterglow .afterglow-control-bar,
+    .hidden-controls .mejs__controls {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+    
+    /* Make videos appear as thumbnails */
+    .hidden-controls iframe {
+      cursor: default;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+
+<!-- Subscribe Box -->
+<div class="container mx-auto py-8">
+  <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md glass">
+    <div class="text-center">
+      <img src="drive-logo.svg" alt="DrivePlyr Logo" class="mx-auto h-16 mb-4">
+      <h2 class="text-xl font-semibold text-gray-800">DrivePlyr</h2>
+    </div>
+    <div class="mt-6">
+      <input type="text" placeholder="Enter Your Drive Video Link*" autocomplete="on" id="videourl" required="required" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
+      <input type="text" placeholder="Poster URL (optional)" autocomplete="on" id="posterurl" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
+      <input type="text" placeholder="Video Title (optional)" autocomplete="on" id="videotitle" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
+      <button onclick="get()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">GET</button>
+    </div>
+  </div>
+</div>
+
+<!-- Video Preview Section -->
+<div class="container mx-auto px-4" id="videoPreview" style="display: none;">
+  <div class="max-w-md mx-auto bg-white rounded-md shadow-md glass">
+    <h4 class="text-lg font-semibold text-gray-800 p-4 text-center">Video Preview</h4>
+    <div class="p-4">
+      <div class="aspect-w-16 aspect-h-9 mb-4">
+        <img id="videoThumbnail" src="" alt="Video Thumbnail" class="w-full h-48 object-cover rounded-md border-2 border-gray-200" style="display: none;">
+      </div>
+      <div class="space-y-3">
+        <button onclick="copyEmbedCode()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Copy Embed Code</button>
+        <button onclick="openPlayer()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Open Player</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="mt-5 py-8 bg-gray-900 text-white text-center">
+  <h3><a href="https://linktr.ee/cxdiin">CXDI - Serve Technology</a></h3>
+  <h5>Currently working on <a target="_blank" href="https://driveplyr.appspages.online/" rel="dofollow">DrivePlyr 2.0</a></h5>
+</footer>
+
+<!-- Scripts -->
+<script src="script.js"></script>
+
+</body>
+</html>
