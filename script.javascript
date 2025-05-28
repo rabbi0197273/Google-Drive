@@ -26,22 +26,30 @@ let videoId;
 
 let get=()=>{
   let url = s('videourl').value;
+  console.log('Input URL:', url);
+  
   if(!url) {
     alert('Please enter a Google Drive video link');
     return;
   }
   
   let result = getIdFromUrl(url);
+  console.log('Extracted result:', result);
+  
   if(!result || !result[0]) {
-    alert('Invalid Google Drive link');
+    alert('Invalid Google Drive link. Please check the URL format.');
     return;
   }
   
   videoId = result[0];
+  console.log('Video ID:', videoId);
   
   // Show thumbnail
   let thumbnail = s('videoThumbnail');
-  thumbnail.src = 'https://lh3.googleusercontent.com/d/' + videoId;
+  let thumbnailUrl = 'https://lh3.googleusercontent.com/d/' + videoId;
+  console.log('Thumbnail URL:', thumbnailUrl);
+  
+  thumbnail.src = thumbnailUrl;
   thumbnail.style.display = 'block';
   
   // Show preview section
