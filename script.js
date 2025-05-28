@@ -26,7 +26,6 @@ let videoId;
 
 let get=()=>{
   let url = s('videourl').value;
-  console.log('Input URL:', url);
   
   if(!url) {
     alert('Please enter a Google Drive video link');
@@ -34,7 +33,6 @@ let get=()=>{
   }
   
   let result = getIdFromUrl(url);
-  console.log('Extracted result:', result);
   
   if(!result || !result[0]) {
     alert('Invalid Google Drive link. Please check the URL format.');
@@ -42,14 +40,10 @@ let get=()=>{
   }
   
   videoId = result[0];
-  console.log('Video ID:', videoId);
   
   // Show thumbnail
   let thumbnail = s('videoThumbnail');
-  let thumbnailUrl = 'https://lh3.googleusercontent.com/d/' + videoId;
-  console.log('Thumbnail URL:', thumbnailUrl);
-  
-  thumbnail.src = thumbnailUrl;
+  thumbnail.src = 'https://lh3.googleusercontent.com/d/' + videoId;
   thumbnail.style.display = 'block';
   
   // Show preview section
@@ -63,7 +57,7 @@ let copyEmbedCode = () => {
   }
   
   let embedCode = `<iframe width="560" height="315" 
-src="./simple-player.html?id=${videoId}" 
+src="https://rabbi0197273.github.io/Google-Drive/simple-player.html?id=${videoId}" 
 frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
 gyroscope; picture-in-picture" allowfullscreen>
 </iframe>`;
@@ -81,5 +75,5 @@ let openPlayer = () => {
     return;
   }
   
-  window.open('./simple-player.html?id=' + videoId, '_blank');
+  window.open('https://rabbi0197273.github.io/Google-Drive/simple-player.html?id=' + videoId, '_blank');
 }
