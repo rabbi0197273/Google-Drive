@@ -2,145 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DrivePlyr - Google Drive Proxy Video Player</title>
-    
-  <!-- Meta Tags for SEO -->
-  <meta name="description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
-  <meta name="keywords" content="DrivePlyr, Google Drive, Proxy, Video Player, HTML5 Player, Hidden ID, Features">
-  <meta name="author" content="Rabbi123">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rabbi0197273.github.io/Google-Drive/">
-  <meta property="og:title" content="DrivePlyr - Google Drive Proxy Video Player">
-  <meta property="og:description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
-
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://rabbi0197273.github.io/Google-Drive/">
-  <meta property="twitter:title" content="DrivePlyr - Google Drive Proxy Video Player">
-  <meta property="twitter:description" content="DrivePlyr is a Google Drive Proxy Video Player with Many Powerful HTML5 Players, Hidden ID, and Many Features. Play your videos from Google Drive with ease.">
-
-  <!-- Other Meta Tags -->
-  <meta name="theme-color" content="#ffffff">
-  <meta name="robots" content="index, follow">
-
-  <!-- Link to Tailwind CSS via CDN -->
+  <title>Drive Image Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Convert Google Drive link to direct image view link.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="https://raw.githubusercontent.com/SH20RAJ/DrivePlyr/main/drive-logo.png">
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Glass effect */
-    .glass {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-    }
-  </style>
 </head>
-<body class="bg-gray-100">
-
-<!-- 🔄 Drive Image Link Converter Section -->
-<div class="container mx-auto py-8">
-  <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md glass text-center">
-    <h2 class="text-xl font-semibold text-gray-800 mb-4">🔗 Google Drive Image Converter</h2>
-    <input type="text" id="driveInput" placeholder="Paste your Google Drive image link..." class="block w-full px-4 py-2 border border-gray-300 rounded-md mb-3 focus:outline-none focus:border-blue-400">
-    <button onclick="convertImageLink()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Generate Link</button>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full bg-white p-6 rounded shadow text-center">
+    <h1 class="text-xl font-bold mb-4">🔗 Google Drive Image Converter</h1>
+    <input type="text" id="driveInput" placeholder="Paste your Google Drive image link..."
+      class="block w-full px-4 py-2 border border-gray-300 rounded-md mb-3 focus:outline-none focus:border-blue-400">
+    <button onclick="convertImageLink()"
+      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">
+      Generate Link
+    </button>
     <div id="output" class="mt-4 text-sm text-gray-700 break-words"></div>
   </div>
-</div>
 
-<script>
-  function extractID(url) {
-    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-    return match ? match[1] : null;
-  }
-
-  function convertImageLink() {
-    const input = document.getElementById("driveInput").value.trim();
-    const id = extractID(input);
-    const output = document.getElementById("output");
-
-    if (id) {
-      const finalURL = "https://lh3.googleusercontent.com/d/" + id;
-      output.innerHTML = '✅ Direct Image Link:<br><a href="' + finalURL + '" target="_blank" class="text-blue-600 underline">' + finalURL + '</a>';
-    } else {
-      output.innerHTML = "❌ Invalid or missing Google Drive ID.";
+  <script>
+    function extractID(url) {
+      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      return match ? match[1] : null;
     }
-  }
-</script>
 
+    function convertImageLink() {
+      const input = document.getElementById("driveInput").value.trim();
+      const id = extractID(input);
+      const output = document.getElementById("output");
 
-<!-- Navigation -->
-<nav class="bg-white shadow-lg">
-  <div class="max-w-7xl mx-auto px-4">
-    <div class="flex justify-between h-16">
-      <div class="flex items-center">
-        <h1 class="text-xl font-bold text-gray-800">DrivePlyr</h1>
-      </div>
-      <div class="flex items-center space-x-4">
-        <button onclick="showHome()" id="homeBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">Home</button>
-        <button onclick="showDashboard()" id="dashboardBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-300">Dashboard</button>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<!-- Home Section -->
-<div id="homeSection">
-  <!-- Subscribe Box -->
-  <div class="container mx-auto py-8">
-    <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md glass">
-      <div class="text-center">
-        <h2 class="text-xl font-semibold text-gray-800">DrivePlyr</h2>
-      </div>
-      <div class="mt-6">
-        <input type="text" placeholder="Enter Your Drive Video Link*" autocomplete="on" id="videourl" required="required" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
-        <input type="text" placeholder="Poster URL (optional)" autocomplete="on" id="posterurl" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
-        <input type="text" placeholder="Video Title (optional)" autocomplete="on" id="videotitle" class="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-400 mb-3">
-        <button onclick="get()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">GET</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Video Preview Section -->
-  <div class="container mx-auto px-4" id="videoPreview" style="display: none;">
-    <div class="max-w-md mx-auto bg-white rounded-md shadow-md glass">
-      <h4 class="text-lg font-semibold text-gray-800 p-4 text-center">Video Preview</h4>
-      <div class="p-4">
-        <div class="aspect-w-16 aspect-h-9 mb-4">
-          <img id="videoThumbnail" src="" alt="Video Thumbnail" class="w-full h-48 object-cover rounded-md border-2 border-gray-200" style="display: none;">
-        </div>
-        <div class="space-y-3">
-          <button onclick="copyEmbedCode()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Copy Embed Code</button>
-          <button onclick="openPlayer()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Open Player</button>
-          <button onclick="saveVideo()" class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Save to Dashboard</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Dashboard Section -->
-<div id="dashboardSection" style="display: none;">
-  <div class="container mx-auto py-8 px-4">
-    <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">Saved Videos Dashboard</h2>
-    <div id="savedVideos" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Saved videos will be loaded here -->
-    </div>
-    <div id="noVideos" class="text-center text-gray-500 mt-8" style="display: none;">
-      <p>No saved videos yet. Go to Home and convert some videos!</p>
-    </div>
-  </div>
-</div>
-
-<!-- Footer -->
-<footer class="mt-5 py-8 bg-gray-900 text-white text-center">
-  <h3><a href="https://linktr.ee/cxdiin">CXDI - Serve Technology</a></h3>
-  <h5>Currently working on <a target="_blank" href="https://rabbi0197273.github.io/Google-Drive/" rel="dofollow">DrivePlyr 2.0</a></h5>
-</footer>
-
-<!-- Scripts -->
-<script src="script.js"></script>
-
+      if (id) {
+        const finalURL = "https://lh3.googleusercontent.com/d/" + id;
+        output.innerHTML = '✅ Direct Image Link:<br><a href="' + finalURL + '" target="_blank" class="text-blue-600 underline">' + finalURL + '</a>';
+      } else {
+        output.innerHTML = "❌ Invalid or missing Google Drive ID.";
+      }
+    }
+  </script>
 </body>
 </html>
