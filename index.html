@@ -39,6 +39,37 @@
 </head>
 <body class="bg-gray-100">
 
+<!-- 🔄 Drive Image Link Converter Section -->
+<div class="container mx-auto py-8">
+  <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md glass text-center">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">🔗 Google Drive Image Converter</h2>
+    <input type="text" id="driveInput" placeholder="Paste your Google Drive image link..." class="block w-full px-4 py-2 border border-gray-300 rounded-md mb-3 focus:outline-none focus:border-blue-400">
+    <button onclick="convertImageLink()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">Generate Link</button>
+    <div id="output" class="mt-4 text-sm text-gray-700 break-words"></div>
+  </div>
+</div>
+
+<script>
+  function extractID(url) {
+    const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+    return match ? match[1] : null;
+  }
+
+  function convertImageLink() {
+    const input = document.getElementById("driveInput").value.trim();
+    const id = extractID(input);
+    const output = document.getElementById("output");
+
+    if (id) {
+      const finalURL = "https://lh3.googleusercontent.com/d/" + id;
+      output.innerHTML = '✅ Direct Image Link:<br><a href="' + finalURL + '" target="_blank" class="text-blue-600 underline">' + finalURL + '</a>';
+    } else {
+      output.innerHTML = "❌ Invalid or missing Google Drive ID.";
+    }
+  }
+</script>
+
+
 <!-- Navigation -->
 <nav class="bg-white shadow-lg">
   <div class="max-w-7xl mx-auto px-4">
