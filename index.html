@@ -2,30 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Drive Direct Downloader</title>
+  <title>Google Drive Downloader</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body style="font-family: Arial, sans-serif; text-align:center; padding:20px;">
-
-  <h2>Google Drive Direct Download Generator</h2>
-  <input type="text" id="fileId" placeholder="Enter Google Drive File ID" style="width:300px; padding:5px;">
-  <br><br>
-  <button onclick="showLink()" style="padding:8px 15px; cursor:pointer;">Get Direct Link</button>
-
-  <p id="result" style="margin-top:20px; font-size:16px;"></p>
-
-  <script src="config.js"></script>
-  <script src="fetch.js"></script>
-  <script>
-    async function showLink() {
-      const fileId = document.getElementById("fileId").value.trim();
-      if(!fileId) {
-        document.getElementById("result").innerText = "⚠️ Please enter a file ID.";
-        return;
-      }
-      const link = await getDirectLink(fileId);
-      document.getElementById("result").innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
-    }
-  </script>
+<body>
+  <div class="container">
+    <h2>Google Drive Downloader</h2>
+    <input type="text" id="fileId" placeholder="Paste Google Drive File ID here">
+    <button onclick="startDownload()">Download</button>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
