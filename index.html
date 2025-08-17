@@ -2,42 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Drive Image Converter</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Convert Google Drive link to direct image view link.">
-  <meta name="theme-color" content="#000000">
-  <link rel="icon" href="https://raw.githubusercontent.com/SH20RAJ/DrivePlyr/main/drive-logo.png">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Drive Direct Downloader</title>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-  <div class="max-w-md w-full bg-white p-6 rounded shadow text-center">
-    <h1 class="text-xl font-bold mb-4">🔗 Google Drive Image Converter</h1>
-    <input type="text" id="driveInput" placeholder="Paste your Google Drive image link..."
-      class="block w-full px-4 py-2 border border-gray-300 rounded-md mb-3 focus:outline-none focus:border-blue-400">
-    <button onclick="convertImageLink()"
-      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full transition duration-300">
-      Generate Link
-    </button>
-    <div id="output" class="mt-4 text-sm text-gray-700 break-words"></div>
-  </div>
+<body style="font-family: Arial, sans-serif; text-align:center; padding:20px;">
 
+  <h2>Google Drive Direct Download Generator</h2>
+  <input type="text" id="fileId" placeholder="Enter Google Drive File ID" style="width:300px; padding:5px;">
+  <br><br>
+  <button onclick="showLink()" style="padding:8px 15px; cursor:pointer;">Get Direct Link</button>
+
+  <p id="result" style="margin-top:20px; font-size:16px;"></p>
+
+  <script src="config.js"></script>
+  <script src="fetch.js"></script>
   <script>
-    function extractID(url) {
-      const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      return match ? match[1] : null;
-    }
-
-    function convertImageLink() {
-      const input = document.getElementById("driveInput").value.trim();
-      const id = extractID(input);
-      const output = document.getElementById("output");
-
-      if (id) {
-        const finalURL = "https://lh3.googleusercontent.com/d/" + id;
-        output.innerHTML = '✅ Direct Image Link:<br><a href="' + finalURL + '" target="_blank" class="text-blue-600 underline">' + finalURL + '</a>';
-      } else {
-        output.innerHTML = "❌ Invalid or missing Google Drive ID.";
+    async function showLink() {
+      const fileId = document.getElementById("fileId").value.trim();
+      if(!fileId) {
+        document.getElementById("result").innerText = "⚠️ Please enter a file ID.";
+        return;
       }
+      const link = await getDirectLink(fileId);
+      document.getElementById("result").innerHTML = `<a href="${link}" target="_blank">${link}</a>`;
     }
   </script>
 </body>
